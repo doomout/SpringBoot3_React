@@ -1,4 +1,4 @@
-package com.full.khg.controller;
+package com.full.cardatabase.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
