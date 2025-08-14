@@ -5,6 +5,14 @@
 - Java: openjdk 17.0.12 
 - DB: MariaDB 10.11.14
 
+## 환경설정
+spring.application.name=khg
+logging.level.root=DEBUG
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.jpa.show-sql=true
+spring.h2.console.enabled=true
+spring.h2.console.path=/h2-console
+
 ## 1. 의존성 주입이란?
 ### 1. 생성자 주입 (Constructor Injection) ✅ 권장 방식
 ```java
