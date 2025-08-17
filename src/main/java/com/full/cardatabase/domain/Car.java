@@ -1,8 +1,5 @@
 package com.full.cardatabase.domain;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import jakarta.persistence.*;
 
 @Entity
@@ -19,7 +16,8 @@ public class Car {
     public Car() {
     }
 
-    public Car(String brand, String model, String color, String registrationNumber, int modelYear, int price) {
+    public Car(String brand, String model, String color, String registrationNumber, int modelYear, int price,
+            Owner owner) {
         super();
         this.brand = brand;
         this.model = model;
@@ -27,6 +25,7 @@ public class Car {
         this.registrationNumber = registrationNumber;
         this.modelYear = modelYear;
         this.price = price;
+        this.owner = owner;
     }
 
     // Getter and setter
@@ -87,19 +86,30 @@ public class Car {
     }
 
     // n:1
-    // @ManyToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name = "owner")
-    // private Owner owner;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner")
+    private Owner owner;
 
-    // n:n
-    @ManyToMany(mappedBy = "cars")
-    private Set<Owner> owners = new HashSet<Owner>();
-
-    public Set<Owner> getOwner() {
-        return owners;
+    public Owner getOwner() {
+        return owner;
     }
 
-    public void setOwner(Set<Owner> owners) {
-        this.owners = owners;
+    public void setOwner(Owner owner) {
+        this.owner = owner;
     }
+
+    /**
+     * n:n
+     * 
+     * @ManyToMany(mappedBy = "cars")
+     *                      private Set<Owner> owners = new HashSet<Owner>();
+     * 
+     *                      public Set<Owner> getOwner() {
+     *                      return owners;
+     *                      }
+     * 
+     *                      public void setOwner(Set<Owner> owners) {
+     *                      this.owners = owners;
+     *                      }
+     */
 }
