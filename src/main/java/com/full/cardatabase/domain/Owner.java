@@ -1,12 +1,8 @@
 package com.full.cardatabase.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.CascadeType;
-import java.util.List;
+import java.util.*;
+
+import jakarta.persistence.*;
 
 @Entity
 public class Owner {
@@ -15,7 +11,8 @@ public class Owner {
     private Long ownerid;
     private String firstname, lastname;
 
-    public Owner() {}
+    public Owner() {
+    }
 
     public Owner(String firstname, String lastname) {
         super();
@@ -31,22 +28,33 @@ public class Owner {
     public String getFirstname() {
         return firstname;
     }
+
     public void setFirstname(String firstname) {
         this.firstname = firstname;
     }
+
     public String getLastname() {
         return lastname;
     }
+
     public void setLastname(String lastname) {
         this.lastname = lastname;
     }
 
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="owner")
-    private List<Car> cars;
-    public List<Car> getCars() {
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(name = "car_owner", joinColumns = {
+            @JoinColumn(name = "ownerid")
+    }, inverseJoinColumns = {
+            @JoinColumn(name = "id")
+    })
+
+    private Set<Car> cars = new HashSet<Car>();
+
+    public Set<Car> getCars() {
         return cars;
     }
-    public void setCars(List<Car> cars) {
+
+    public void setCars(Set<Car> cars) {
         this.cars = cars;
     }
 }

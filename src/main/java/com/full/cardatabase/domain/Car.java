@@ -1,12 +1,9 @@
 package com.full.cardatabase.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import java.util.HashSet;
+import java.util.Set;
+
+import jakarta.persistence.*;
 
 @Entity
 public class Car {
@@ -22,8 +19,7 @@ public class Car {
     public Car() {
     }
 
-    public Car(String brand, String model, String color, String registrationNumber, int modelYear, int price,
-            Owner owner) {
+    public Car(String brand, String model, String color, String registrationNumber, int modelYear, int price) {
         super();
         this.brand = brand;
         this.model = model;
@@ -31,7 +27,6 @@ public class Car {
         this.registrationNumber = registrationNumber;
         this.modelYear = modelYear;
         this.price = price;
-        this.owner = owner;
     }
 
     // Getter and setter
@@ -91,15 +86,20 @@ public class Car {
         this.price = price;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "owner")
-    private Owner owner;
+    // n:1
+    // @ManyToOne(fetch = FetchType.LAZY)
+    // @JoinColumn(name = "owner")
+    // private Owner owner;
 
-    public Owner getOwner() {
-        return owner;
+    // n:n
+    @ManyToMany(mappedBy = "cars")
+    private Set<Owner> owners = new HashSet<Owner>();
+
+    public Set<Owner> getOwner() {
+        return owners;
     }
 
-    public void setOwner(Owner owner) {
-        this.owner = owner;
+    public void setOwner(Set<Owner> owners) {
+        this.owners = owners;
     }
 }
