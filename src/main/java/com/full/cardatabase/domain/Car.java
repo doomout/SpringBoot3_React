@@ -11,7 +11,7 @@ import jakarta.persistence.ManyToOne;
 @Entity
 public class Car {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String brand, model, color, registrationNumber;
@@ -19,9 +19,11 @@ public class Car {
     private int modelYear, price;
 
     // 생성자
-    public Car() {}
+    public Car() {
+    }
 
-    public Car(String brand, String model, String color, String registrationNumber, int modelYear, int price) {
+    public Car(String brand, String model, String color, String registrationNumber, int modelYear, int price,
+            Owner owner) {
         super();
         this.brand = brand;
         this.model = model;
@@ -29,9 +31,9 @@ public class Car {
         this.registrationNumber = registrationNumber;
         this.modelYear = modelYear;
         this.price = price;
+        this.owner = owner;
     }
 
-    
     // Getter and setter
     public Long getId() {
         return id;
@@ -89,13 +91,14 @@ public class Car {
         this.price = price;
     }
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="owner")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner")
     private Owner owner;
 
     public Owner getOwner() {
         return owner;
     }
+
     public void setOwner(Owner owner) {
         this.owner = owner;
     }
