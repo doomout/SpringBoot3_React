@@ -3,8 +3,11 @@ package com.full.cardatabase.domain;
 import java.util.*;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Owner {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,6 +22,10 @@ public class Owner {
         this.firstname = firstname;
         this.lastname = lastname;
     }
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    private List<Car> cars;
 
     // gte/set
     public Long getOwnerid() {
@@ -40,9 +47,6 @@ public class Owner {
     public void setLastname(String lastname) {
         this.lastname = lastname;
     }
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<Car> cars;
 
     public List<Car> getCars() {
         return cars;
