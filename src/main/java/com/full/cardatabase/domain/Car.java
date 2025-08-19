@@ -97,19 +97,4 @@ public class Car {
     public void setOwner(Owner owner) {
         this.owner = owner;
     }
-
-    /**
-     * n:n
-     * 
-     * @ManyToMany(mappedBy = "cars")
-     *                      private Set<Owner> owners = new HashSet<Owner>();
-     * 
-     *                      public Set<Owner> getOwner() {
-     *                      return owners;
-     *                      }
-     * 
-     *                      public void setOwner(Set<Owner> owners) {
-     *                      this.owners = owners;
-     *                      }
-     */
 }
