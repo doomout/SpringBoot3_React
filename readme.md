@@ -1,6 +1,5 @@
 ## 풀스텍 웹 개발
 
-- 도서: 실전! 스프링 부트3 & 리액트로 시작하는 모던 웹 애플리케이션 개발
 - IDE: vscode
 - 스프링 부트 3.5.4
 - Java: openjdk 17.0.12
@@ -8,12 +7,35 @@
 
 ## 환경설정
 
-spring.application.name=khg
+```gradle
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.9")
+
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+```
+
+```properties
 logging.level.root=DEBUG
-spring.datasource.url=jdbc:h2:mem:testdb
+
 spring.jpa.show-sql=true
-spring.h2.console.enabled=true
-spring.h2.console.path=/h2-console
+spring.jpa.generate-ddl=true
+spring.jpa.hibernate.ddl-auto=create-drop
+
+spring.data.rest.basePath=/api
+
+# Data REST는 /api 아래, OpenAPI는 표준 /v3/api-docs 사용
+spring.data.rest.basePath=/api
+springdoc.api-docs.path=/v3/api-docs
+springdoc.swagger-ui.path=/swagger-ui/index.html
+springdoc.swagger-ui.enabled=true
+```
 
 ## 1. 의존성 주입이란?
 
@@ -88,15 +110,3 @@ public class Car {
 | 생성자 주입 | ✅ | ✅ | ⭐ 강력 권장 |
 | 세터 주입 | ❌ | 보통 | 조건부 사용 |
 | 필드 주입 | ❌ | ❌ | 지양 |
-
-### 4. RESTful API 문서화
-
-```text
-// build.gradle
-implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.0.2'
-
-// application.properties 파일
-springdoc.api-docs.path=/api-docs
-springdoc.swagger-ui.path=/swagger-ui.html
-springdoc.swagger-ui.enabled=true
-```
