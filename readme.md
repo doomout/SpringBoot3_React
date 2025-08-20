@@ -13,11 +13,13 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.9")
+  implementation 'org.springframework.boot:spring-boot-starter-security'
 
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+  testImplementation 'org.springframework.security:spring-security-test'
 }
 ```
 
