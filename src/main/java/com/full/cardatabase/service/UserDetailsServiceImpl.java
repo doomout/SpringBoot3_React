@@ -4,12 +4,12 @@ import java.util.Optional;
 
 import org.springframework.security.core.userdetails.*;
 import org.springframework.security.core.userdetails.User.UserBuilder;
+import org.springframework.stereotype.Service;
 
 import com.full.cardatabase.domain.AppUser;
 import com.full.cardatabase.domain.AppUserRepository;
-import io.swagger.v3.oas.annotations.servers.Server;
 
-@Server // Swagger 서버 문서화용 어노테이션
+@Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     // AppUser 엔티티를 DB에서 조회하기 위해 사용하는 Repository

@@ -8,10 +8,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.full.cardatabase.domain.Car;
-import com.full.cardatabase.domain.CarRepository;
-import com.full.cardatabase.domain.Owner;
-import com.full.cardatabase.domain.OwnerRepository;
+import com.full.cardatabase.domain.*;
 
 @SpringBootApplication
 public class CardatabaseApplication implements CommandLineRunner {
@@ -20,10 +17,13 @@ public class CardatabaseApplication implements CommandLineRunner {
 
 	private final CarRepository repository;
 	private final OwnerRepository orepository;
+	private final AppUserRepository urepository;
 
-	public CardatabaseApplication(CarRepository repository, OwnerRepository orepository) {
+	public CardatabaseApplication(CarRepository repository, OwnerRepository orepository,
+			AppUserRepository urepository) {
 		this.repository = repository;
 		this.orepository = orepository;
+		this.urepository = urepository;
 	}
 
 	public static void main(String[] args) {
@@ -45,5 +45,10 @@ public class CardatabaseApplication implements CommandLineRunner {
 		for (Car car : repository.findAll()) {
 			logger.info("brand: {}, model: {}", car.getBrand(), car.getModel());
 		}
+
+		// 사용자명: user , 비밀번호: user(bcrypt 생성기로 만듬)
+		urepository.save(new AppUser("user", "$2y$04$wvrisSl0uzbnEKvZRcWQduXvkSTMp5RgfwwMxHoXKGy/rolL1nLom", "USER"));
+		// 사용자명: admin , 비밀번호: admin(bcrypt 생성기로 만듬)
+		urepository.save(new AppUser("admin", "$2y$04$Lo2eyLQBDJ15m3A25nY75.mgS.vbVBP7EMK0G.PfcfTS8gcvQyPbe", "ADMIN"));
 	}
 }

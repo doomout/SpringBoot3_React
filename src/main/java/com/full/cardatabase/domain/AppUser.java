@@ -18,6 +18,18 @@ public class AppUser {
     @Column(nullable = false)
     private String role;
 
+    // 기본 생성자 (JPA 용)
+    public AppUser() {
+    }
+
+    // 내가 직접 쓸 생성자
+    public AppUser(String username, String password, String role) {
+        super();
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
+
     // set/set
     public Long getId() {
         return id;
