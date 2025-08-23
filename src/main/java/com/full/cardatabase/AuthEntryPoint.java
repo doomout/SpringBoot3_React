@@ -20,6 +20,8 @@ public class AuthEntryPoint implements AuthenticationEntryPoint {
             AuthenticationException authException) throws IOException, ServiceException {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setCharacterEncoding("UTF-8");
+
         PrintWriter writer = response.getWriter();
         writer.println("Error: " + authException.getMessage());
     }
