@@ -19,28 +19,34 @@ import org.springframework.http.HttpMethod;
 
 import com.full.cardatabase.service.UserDetailsServiceImpl;
 
-@Configuration // 스프링 설정 클래스임을 나타냄
-@EnableWebSecurity // Spring Security 설정을 활성화
+@Configuration // 이 클래스가 스프링 설정 클래스임을 나타냄
+@EnableWebSecurity // Spring Security 보안 설정을 활성화
 public class SecurityConfig {
+    // DB에서 사용자 정보를 불러오는 서비스 (로그인 시 UserDetailsServiceImpl이 동작)
     private final UserDetailsServiceImpl userDetailsService;
-    // DB에서 사용자 정보를 가져오는 서비스 (사용자 인증 시 필요)
 
+    // JWT 토큰을 확인하는 커스텀 필터 (모든 요청에 대해 토큰 검사)
     private final AuthenticationFilter authenticationFilter;
-    // JWT 토큰을 확인하는 커스텀 필터
 
-    // 생성자 주입
-    public SecurityConfig(UserDetailsServiceImpl userDetailsService, AuthenticationFilter authenticationFilter) {
+    // 인증 실패(401 Unauthorized) 발생 시 실행될 핸들러
+    private final AuthEntryPoint exceptionHandler;
+
+    // 생성자 주입 (스프링이 자동으로 Bean을 넣어줌)
+    public SecurityConfig(UserDetailsServiceImpl userDetailsService,
+            AuthenticationFilter authenticationFilter,
+            AuthEntryPoint exceptionHandler) {
         this.userDetailsService = userDetailsService;
         this.authenticationFilter = authenticationFilter;
+        this.exceptionHandler = exceptionHandler;
     }
 
-    // AuthenticationManagerBuilder에 사용자 정보 서비스와 비밀번호 인코더를 등록
+    // 사용자 인증을 처리할 때 UserDetailsService와 PasswordEncoder를 사용하도록 등록
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService)
-                .passwordEncoder(new BCryptPasswordEncoder());
+        auth.userDetailsService(userDetailsService) // 사용자 정보 조회 서비스
+                .passwordEncoder(new BCryptPasswordEncoder()); // 비밀번호 암호화 방식
     }
 
-    // 비밀번호를 암호화하기 위한 PasswordEncoder Bean 등록
+    // 비밀번호 암호화를 담당하는 Bean 등록 (BCrypt 방식)
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -52,24 +58,23 @@ public class SecurityConfig {
         return authConfig.getAuthenticationManager();
     }
 
-    // 보안 필터 체인 설정 (Spring Security의 핵심 부분)
+    // Spring Security의 핵심 설정: 필터 체인 정의
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf((csrf) -> csrf.disable()) // CSRF 보호 기능 끔 (REST API는 보통 필요 없음)
-                .formLogin(form -> form.disable()) // 기본 제공 로그인 폼 비활성화
-                .httpBasic(basic -> basic.disable()) // HTTP Basic 인증 비활성화
-                .sessionManagement((sessionManagement) -> sessionManagement
+        http.csrf(csrf -> csrf.disable()) // CSRF 보호 기능 끔 (REST API는 토큰 인증을 쓰므로 불필요)
+                .formLogin(form -> form.disable()) // 기본 로그인 폼 비활성화
+                .httpBasic(basic -> basic.disable()) // 브라우저 팝업창 띄우는 Basic 인증 끔
+                .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                // 세션을 아예 사용하지 않음 (JWT 인증이므로 필요 없음)
-                .authorizeHttpRequests(
-                        (authorizeHttpRequests) -> authorizeHttpRequests
-                                .requestMatchers(HttpMethod.POST, "/login").permitAll()
-                                // 로그인 API는 인증 없이 접근 허용
-                                .anyRequest().authenticated())
-                // 나머지 모든 요청은 인증 필요
-                .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
-        // UsernamePasswordAuthenticationFilter 실행 전에 JWT 필터 실행
+                // 세션을 사용하지 않고 매 요청마다 JWT 검증
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.POST, "/login").permitAll() // 로그인 API는 누구나 접근 허용
+                        .anyRequest().authenticated()) // 그 외 모든 요청은 인증 필요
+                // JWT 필터를 UsernamePasswordAuthenticationFilter 전에 실행 → 요청 들어올 때 토큰 먼저 검증
+                .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                // JWT 검증 실패/인증 실패 시 401 Unauthorized JSON 응답을 내려줌
+                .exceptionHandling(ex -> ex.authenticationEntryPoint(exceptionHandler));
 
-        return http.build();
+        return http.build(); // SecurityFilterChain Bean 반환
     }
 }
