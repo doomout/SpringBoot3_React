@@ -70,11 +70,12 @@ public class SecurityConfig {
                 .cors(withDefaults())
                 .formLogin(form -> form.disable()) // 기본 로그인 폼 비활성화
                 .httpBasic(basic -> basic.disable()) // 브라우저 팝업창 띄우는 Basic 인증 끔
-                .sessionManagement(session -> session
+                .sessionManagement((sessionManagement) -> sessionManagement
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 // 세션을 사용하지 않고 매 요청마다 JWT 검증
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.POST, "/login").permitAll() // 로그인 API는 누구나 접근 허용
+                .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/user/**").hasRole("USER")
                         .anyRequest().authenticated()) // 그 외 모든 요청은 인증 필요
                 // JWT 필터를 UsernamePasswordAuthenticationFilter 전에 실행 → 요청 들어올 때 토큰 먼저 검증
                 .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
