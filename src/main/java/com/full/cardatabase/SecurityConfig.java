@@ -1,5 +1,7 @@
 package com.full.cardatabase;
 
+import java.util.Arrays;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -15,7 +17,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.*;
 import org.springframework.http.HttpMethod;
+
+import static org.springframework.security.config.Customizer.withDefaults;
 
 import com.full.cardatabase.service.UserDetailsServiceImpl;
 
@@ -62,6 +67,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable()) // CSRF 보호 기능 끔 (REST API는 토큰 인증을 쓰므로 불필요)
+                .cors(withDefaults())
                 .formLogin(form -> form.disable()) // 기본 로그인 폼 비활성화
                 .httpBasic(basic -> basic.disable()) // 브라우저 팝업창 띄우는 Basic 인증 끔
                 .sessionManagement(session -> session
@@ -76,5 +82,20 @@ public class SecurityConfig {
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(exceptionHandler));
 
         return http.build(); // SecurityFilterChain Bean 반환
+    }
+
+    // 클래스 내에 전역 CORS 필터 추가
+    @Bean
+    public CorsConfigurationSource corsCconfigurationSource() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(Arrays.asList("*"));
+        config.setAllowedMethods(Arrays.asList("*"));
+        config.setAllowedHeaders(Arrays.asList("*"));
+        config.setAllowCredentials(false);
+        config.applyPermitDefaultValues();
+
+        source.registerCorsConfiguration("/**", config);
+        return source;
     }
 }
