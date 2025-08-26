@@ -8,6 +8,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.full.cardatabase.domain.*;
 
@@ -20,12 +21,14 @@ public class CardatabaseApplication implements CommandLineRunner {
 	private final CarRepository repository;
 	private final OwnerRepository orepository;
 	private final AppUserRepository urepository;
+	private final PasswordEncoder passwordEncoder;
 
 	public CardatabaseApplication(CarRepository repository, OwnerRepository orepository,
-			AppUserRepository urepository) {
+			AppUserRepository urepository, PasswordEncoder passwordEncoder) {
 		this.repository = repository;
 		this.orepository = orepository;
 		this.urepository = urepository;
+		this.passwordEncoder = passwordEncoder;
 	}
 
 	public static void main(String[] args) {
@@ -48,9 +51,9 @@ public class CardatabaseApplication implements CommandLineRunner {
 			logger.info("brand: {}, model: {}", car.getBrand(), car.getModel());
 		}
 
-		// 사용자명: user , 비밀번호: user(bcrypt 생성기로 만듬)
-		urepository.save(new AppUser("user", "$2y$04$wvrisSl0uzbnEKvZRcWQduXvkSTMp5RgfwwMxHoXKGy/rolL1nLom", "USER"));
-		// 사용자명: admin , 비밀번호: admin(bcrypt 생성기로 만듬)
-		urepository.save(new AppUser("admin", "$2y$04$Lo2eyLQBDJ15m3A25nY75.mgS.vbVBP7EMK0G.PfcfTS8gcvQyPbe", "ADMIN"));
+		// 사용자명: user , 비밀번호: user
+		urepository.save(new AppUser("user", passwordEncoder.encode("user"), "USER"));
+		// 사용자명: admin , 비밀번호: admin
+		urepository.save(new AppUser("admin", passwordEncoder.encode("admin"), "ADMIN"));
 	}
 }
