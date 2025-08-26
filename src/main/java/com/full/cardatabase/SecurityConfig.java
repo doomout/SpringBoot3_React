@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -65,23 +66,16 @@ public class SecurityConfig {
     // Spring Security의 핵심 설정: 필터 체인 정의
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable()) // CSRF 보호 기능 끔 (REST API는 토큰 인증을 쓰므로 불필요)
-                .cors(withDefaults())
-                .formLogin(form -> form.disable()) // 기본 로그인 폼 비활성화
-                .httpBasic(basic -> basic.disable()) // 브라우저 팝업창 띄우는 Basic 인증 끔
-                .sessionManagement((sessionManagement) -> sessionManagement
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                // 세션을 사용하지 않고 매 요청마다 JWT 검증
+        http.csrf((csrf) -> csrf.disable()).cors(withDefaults())
+                .sessionManagement(
+                        (sessionManagement) -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/user/**").hasRole("USER")
-                        .anyRequest().authenticated()) // 그 외 모든 요청은 인증 필요
-                // JWT 필터를 UsernamePasswordAuthenticationFilter 전에 실행 → 요청 들어올 때 토큰 먼저 검증
+                        .requestMatchers(HttpMethod.POST, "/login").permitAll()
+                        .anyRequest().authenticated())
                 .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                // JWT 검증 실패/인증 실패 시 401 Unauthorized JSON 응답을 내려줌
-                .exceptionHandling(ex -> ex.authenticationEntryPoint(exceptionHandler));
+                .exceptionHandling((exceptionHandling) -> exceptionHandling.authenticationEntryPoint(exceptionHandler));
 
-        return http.build(); // SecurityFilterChain Bean 반환
+        return http.build();
     }
 
     // 클래스 내에 전역 CORS 필터 추가
