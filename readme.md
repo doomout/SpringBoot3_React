@@ -4,6 +4,10 @@
 - 스프링 부트 3.5.4
 - Java: openjdk 17.0.12
 - DB: MariaDB 10.11.14
+- Node.js: 22.15.0
+- npm: 10.9.2
+- React 용 vscode 확장 프로그램: Prettier, Reactjs code snippets, ESLint
+- React 설치 과정: npm create vite@latest -> 앱 이름 지정 -> React -> JavaScript -> npm install
 
 ## 환경설정
 
