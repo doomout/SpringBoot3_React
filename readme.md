@@ -6,8 +6,11 @@
 - DB: MariaDB 10.11.14
 - Node.js: 22.15.0
 - npm: 10.9.2
+- 백엔드 테스트 툴: Postman
+- React: 19.1
 - React 용 vscode 확장 프로그램: Prettier, Reactjs code snippets, ESLint
 - React 설치 과정: npm create vite@latest -> 앱 이름 지정 -> React -> JavaScript -> npm install
+- 크롬 확장: React Developer Tools
 
 ## 환경설정
 
