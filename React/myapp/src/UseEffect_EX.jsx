@@ -5,22 +5,22 @@ function UseEffect_EX() {
     const [count4, setCount4] = useState(0);
     const [count5, setCount5] = useState(0);
     
-
-    // 렌더링이 끝나면 매번 호출 
+    // 1. 의존성 배열 없음 → 매번 호출
     useEffect(() => {
         console.log('Hello from useEffect');
     });
 
-    // count 값이 변경되면 실행되고 컴포너트가 다시 렌더링 됨
+    // 2. count4가 바뀔 때만 호출
     useEffect(() => {
         console.log("Counter value is now " + count4);
     }, [count4]);
 
-    // 정리 기능
+    // 3. count5가 바뀔 때 호출 + 이전 effect 정리(clean up)
     useEffect(() => {
         console.log("Hello from useEffect");
+
         return (() => {
-        console.log("Clean up function");
+            console.log("Clean up function");
         });
     }, [count5]);
 
@@ -28,8 +28,10 @@ function UseEffect_EX() {
     <>
         <p>매번 호출: {count3} </p>
         <button onClick={() => setCount3(count3 + 1)}>매번 호출</button>
+
         <p>다시 렌더링: {count4} </p>
         <button onClick={() => setCount4(count4 + 1)}>다시 렌더링 </button>
+
         <p>정리 기능: {count5} </p>
         <button onClick={() => setCount5(count5 + 1)}>정리 기능 </button>
     </>

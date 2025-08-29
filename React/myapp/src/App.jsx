@@ -3,17 +3,19 @@ import './App.css'
 import Counter from "./Counter"; 
 import UseEffect_EX from "./UseEffect_EX";
 import UseRef_EX from "./UseRef_EX";
+import UseEffectExamples from "./UseEffectExamples";
 
 function App() {
   return (
   <>
     <div>
-      <h1>useState 연습</h1>
+      <h2>useState 연습</h2>
       <Counter />
-      <h1>useEffect 연습</h1>
+      <h2>useEffect 연습</h2>
       <UseEffect_EX />  
-      <h1>useRef_EX 연습</h1>
+      <h2>useRef_EX 연습</h2>
       <UseRef_EX />
+      <UseEffectExamples />
     </div>
   </>
   );
