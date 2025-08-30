@@ -15,11 +15,12 @@ Spring Boot 3 + React 기반의 풀스택 웹 애플리케이션 실습 프로�
 - H2 (테스트)
 
 # application.properties (개발 환경 예시)
+```bash
 spring.jpa.hibernate.ddl-auto=create-drop   # 🚨 개발 전용, 운영에서는 update/validate 권장
 spring.jpa.show-sql=true
 spring.data.rest.basePath=/api
 springdoc.swagger-ui.path=/swagger-ui/index.html
-
+```
 
 ## 1. 의존성 주입이란?
 
