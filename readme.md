@@ -1,58 +1,25 @@
-## 풀스텍 웹 개발
+# SpringBoot3_React
+Spring Boot 3 + React 기반의 풀스택 웹 애플리케이션 실습 프로젝트
 
-- IDE: vscode
-- 스프링 부트 3.5.4
-- Java: openjdk 17.0.12
-- DB: MariaDB 10.11.14
-- Node.js: 22.15.0
-- npm: 10.9.2
-- 백엔드 테스트 툴: Postman
-- React: 19.1
-- React 용 vscode 확장 프로그램: Prettier, Reactjs code snippets, ESLint
-- React 설치 과정: npm create vite@latest -> 앱 이름 지정 -> React -> JavaScript -> npm install
-- 크롬 확장: React Developer Tools
+## Tech Stack
+- **Backend**: Spring Boot 3.5.4, Java 17, MariaDB 10.11.14
+- **Frontend**: React 19.1, Node.js 22.15.0, npm 10.9.2
+- **Tools**: VSCode (Prettier, ESLint, React Snippets), Postman, Chrome React DevTools
 
-## 환경설정
+## 주요 의존성
+- Spring Boot Web / Data JPA / Security
+- Spring Data REST
+- Springdoc OpenAPI 2.8.9
+- JWT (io.jsonwebtoken 0.11.5)
+- MariaDB JDBC
+- H2 (테스트)
 
-```gradle
-dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
-
-	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.9")
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-
-	implementation("io.jsonwebtoken:jjwt-api:0.11.5")
-
-	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
-	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
-
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
-
-	testRuntimeOnly 'com.h2database:h2'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-	testImplementation 'org.springframework.security:spring-security-test'
-}
-```
-
-```properties
-logging.level.root=DEBUG
-
+# application.properties (개발 환경 예시)
+spring.jpa.hibernate.ddl-auto=create-drop   # 🚨 개발 전용, 운영에서는 update/validate 권장
 spring.jpa.show-sql=true
-spring.jpa.generate-ddl=true
-spring.jpa.hibernate.ddl-auto=create-drop
-
 spring.data.rest.basePath=/api
-
-# Data REST는 /api 아래, OpenAPI는 표준 /v3/api-docs 사용
-spring.data.rest.basePath=/api
-springdoc.api-docs.path=/v3/api-docs
 springdoc.swagger-ui.path=/swagger-ui/index.html
-springdoc.swagger-ui.enabled=true
-```
+
 
 ## 1. 의존성 주입이란?
 
