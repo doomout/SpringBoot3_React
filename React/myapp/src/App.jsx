@@ -6,6 +6,7 @@ import UseRef_EX from "./UseRef_EX";
 import UseEffectExamples from "./UseEffectExamples";
 import AuthContext from './AuthContext';
 import MyComponent from './MyComponent';
+import MyList from './MyList';
 
 function App() {
   // 사용자 인증하고 사용자 명을 가져온다.
@@ -13,6 +14,7 @@ function App() {
 
   return (
   <div>
+    <MyList />
     <h2>useState 연습</h2>
     <Counter />
     <h2>useEffect 연습</h2>
