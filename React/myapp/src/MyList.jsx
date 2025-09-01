@@ -6,7 +6,9 @@ function MyList() {
         <>
         <ul>
             {
-                data.map((number) => <li>listitem {number}</li>)
+                // 목록에서 변화가 감지하는데는 고유키(index) 가 필요하다.
+                data.map((number, index) => 
+                <li key={index}>listitem {number}</li>)
             }
         </ul>
         </>
