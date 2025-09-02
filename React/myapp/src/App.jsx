@@ -7,6 +7,7 @@ import UseEffectExamples from "./UseEffectExamples";
 import AuthContext from './AuthContext';
 import MyComponent from './MyComponent';
 import MyList from './MyList';
+import MyTable from './MyTable';
 
 function App() {
   // 사용자 인증하고 사용자 명을 가져온다.
@@ -14,6 +15,7 @@ function App() {
 
   return (
   <div>
+    <MyTable />
     <MyList />
     <h2>useState 연습</h2>
     <Counter />
