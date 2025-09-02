@@ -3,7 +3,8 @@ import AuthContext from './AuthContext';
 
 function MyComponent()  {
     // 버튼을 누르면 호출
-    const handleClick  = () => {
+    const handleClick  = (event) => {
+        event.preventDefault(); // 기본 작동 방지
         alert('버튼 눌렸음');
     }
     const authContext = React.useContext(AuthContext);
@@ -11,7 +12,9 @@ function MyComponent()  {
     return (
         <>
             <p>Welcome {authContext}</p>
-            <button onClick={handleClick}>눌러봐~</button>
+            <form onClick={handleClick}>
+                <input type="submit" value="눌러봐"/>
+            </form>
         </>
     );
 };
