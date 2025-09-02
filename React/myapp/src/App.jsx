@@ -15,6 +15,9 @@ function App() {
 
   return (
   <div>
+    <AuthContext.Provider value={userName}>
+      <MyComponent />
+    </AuthContext.Provider>
     <MyTable />
     <MyList />
     <h2>useState 연습</h2>
@@ -24,9 +27,6 @@ function App() {
     <h2>useRef_EX 연습</h2>
     <UseRef_EX />
     <UseEffectExamples />
-    <AuthContext.Provider value={userName}>
-      <MyComponent />
-    </AuthContext.Provider>
   </div>
   );
 }
