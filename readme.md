@@ -1,20 +1,25 @@
 # SpringBoot3_React
+
 Spring Boot 3 + React 기반의 풀스택 웹 애플리케이션 실습 프로젝트
 
 ## Tech Stack
+
 - **Backend**: Spring Boot 3.5.4, Java 17, MariaDB 10.11.14
 - **Frontend**: React 19.1, Node.js 22.15.0, npm 10.9.2
 - **Tools**: VSCode (Prettier, ESLint, React Snippets), Postman, Chrome React DevTools
 
 ## 주요 의존성
+
 - Spring Boot Web / Data JPA / Security
 - Spring Data REST
 - Springdoc OpenAPI 2.8.9
 - JWT (io.jsonwebtoken 0.11.5)
 - MariaDB JDBC
 - H2 (테스트)
+- React, TypeScript
 
 # application.properties (개발 환경 예시)
+
 ```bash
 spring.jpa.hibernate.ddl-auto=create-drop   # 🚨 개발 전용, 운영에서는 update/validate 권장
 spring.jpa.show-sql=true
@@ -22,76 +27,121 @@ spring.data.rest.basePath=/api
 springdoc.swagger-ui.path=/swagger-ui/index.html
 ```
 
-## 1. 의존성 주입이란?
+## 타입스크립트 기초 문법 정리
 
-### 1. 생성자 주입 (Constructor Injection) ✅ 권장 방식
+### 1. 기본 타입
 
-```java
-@Component
-public class Car {
-    private final CarRepository carRepository;
+```ts
+let isDone: boolean = true;
+let age: number = 30;
+let userName: string = "kim";
 
-    @Autowired // Spring 4.3+ 에서는 생략 가능
-    public Car(CarRepository carRepository) {
-        this.carRepository = carRepository;
-    }
-}
+let numbers: number[] = [1, 2, 3]; // 배열
+let tuple: [string, number] = ["kim", 10]; // 튜플
 ```
 
-- 장점
+### 2. any, unknown, void, never
 
-  - final로 불변성 보장 → 중간에 변경 불가
-  - 테스트/DI 용이 (생성 시점에만 주입)
-  - 순환 참조 방지 가능
-
-- 단점
-  - 의존성이 많으면 생성자 매개변수 길어질 수 있음
-
-### 2. 세터 주입 (Setter Injection)
-
-```java
-@Component
-public class Car {
-    private CarRepository carRepository;
-
-    @Autowired
-    public void setCarRepository(CarRepository carRepository) {
-        this.carRepository = carRepository;
-    }
-}
+```ts
+let notSure: any = 4; // 아무거나 → 되도록 쓰지 말기
+let value: unknown = "hi"; // 타입 알 수 없을 때 → 사용 전 타입 체크 필요
+function logMessage(msg: string): void {
+  console.log(msg);
+} // 리턴 없음
+function fail(msg: string): never {
+  throw new Error(msg);
+} // 절대 리턴 안함
 ```
 
-- 장점
+### 3. 함수 타입
 
-  - 주입할 의존성이 선택적일 때 유용
-  - 객체 생성 후에도 의존성 변경 가능
-
-- 단점
-  - 불변성 보장 불가 → 중간에 바꿀 수 있음
-  - 필드가 null 상태로 사용될 위험
-
-### 3. 필드 주입 (Field Injection) ❌ 비권장
-
-```java
-@Component
-public class Car {
-    @Autowired
-    private CarRepository carRepository;
+```ts
+function add(a: number, b: number): number {
+  return a + b;
 }
+
+const multiply = (a: number, b: number): number => a * b;
 ```
 
-- 장점
+### 4. 객체 타입
 
-  - 코드 짧고 간단
+```ts
+type User = {
+  name: string;
+  age: number;
+  isAdmin?: boolean; // 선택적 속성 (optional)
+};
 
-- 단점
-  - 테스트 어려움 (목 객체 주입 불편)
-  - DI 컨테이너 없이 객체 생성 불가
-  - 의존성이 숨겨져 있어서 명확하지 않음
+const user: User = { name: "kim", age: 30 };
+```
 
-정리표
-| 방법 | 불변성 | 테스트 용이성 | 권장 여부 |
-| ------ | --- | ------- | ------- |
-| 생성자 주입 | ✅ | ✅ | ⭐ 강력 권장 |
-| 세터 주입 | ❌ | 보통 | 조건부 사용 |
-| 필드 주입 | ❌ | ❌ | 지양 |
+### 5. 인터페이스
+
+```ts
+interface Person {
+  name: string;
+  age: number;
+}
+
+interface Developer extends Person {
+  skills: string[];
+}
+
+const dev: Developer = {
+  name: "lee",
+  age: 25,
+  skills: ["React", "TypeScript"],
+};
+```
+
+### 6. 유니온 & 교차 타입
+
+```ts
+let id: string | number; // 유니온
+type Employee = Person & { job: string }; // 교차(합치기)
+```
+
+### 7. 제네릭
+
+```ts
+function identity<T>(arg: T): T {
+  return arg;
+}
+
+const output1 = identity<string>("Hello");
+const output2 = identity<number>(123);
+```
+
+### 8. 타입 단언 (Type Assertion)
+
+```ts
+let someValue: unknown = "Hello TypeScript";
+let strLength: number = (someValue as string).length;
+```
+
+### 9. Enum (열거형)
+
+```ts
+enum Direction {
+  Up = 1,
+  Down,
+  Left,
+  Right,
+}
+
+let move: Direction = Direction.Up;
+```
+
+### 10. 타입 추론 & 타입 가드
+
+```ts
+let message = "hi"; // string으로 추론됨
+
+function printId(id: string | number) {
+  if (typeof id === "string") {
+    console.log(id.toUpperCase()); // string 메서드 가능
+  } else {
+    console.log(id); // number
+  }
+}
+```
