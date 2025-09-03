@@ -13,7 +13,13 @@ function MyForm() {
     }
     return (
         <form onSubmit={handleSubmit}>
-            <input type="text" onChange={handleChange} value={text}/>
+            {/* <input type="text" onChange={handleChange} value={text}/> */}
+            {/* JSX를 이용하여 인라인 onChange 핸들러 함수 사용 */}
+            <input 
+                type="text"
+                onChange={event => setText(event.target.value)}
+                value={text}
+            />
             <input type="submit" value="눌러봐"/>
         </form>
     );
