@@ -8,6 +8,7 @@ import AuthContext from './AuthContext';
 import MyComponent from './MyComponent';
 import MyList from './MyList';
 import MyTable from './MyTable';
+import MyForm from './MyForm';
 
 function App() {
   // 사용자 인증하고 사용자 명을 가져온다.
@@ -15,6 +16,7 @@ function App() {
 
   return (
   <div>
+    <MyForm />
     <AuthContext.Provider value={userName}>
       <MyComponent />
     </AuthContext.Provider>
