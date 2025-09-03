@@ -11,15 +11,12 @@ import MyTable from './MyTable';
 import MyForm from './MyForm';
 
 function App() {
-  // 사용자 인증하고 사용자 명을 가져온다.
-  const userName = 'kim';
 
   return (
   <div>
     <MyForm />
-    <AuthContext.Provider value={userName}>
-      <MyComponent />
-    </AuthContext.Provider>
+    {/* 
+    <MyComponent />
     <MyTable />
     <MyList />
     <h2>useState 연습</h2>
@@ -29,6 +26,7 @@ function App() {
     <h2>useRef_EX 연습</h2>
     <UseRef_EX />
     <UseEffectExamples />
+    */}
   </div>
   );
 }
