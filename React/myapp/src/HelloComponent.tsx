@@ -1,8 +1,6 @@
-type HelloPorps = {
-    name: string;
-    age: number;
-};
-function HelloComponent({name, age}: HelloPorps) {
+import { HelloProps } from "./types";
+
+function HelloComponent({name, age}: HelloProps) {
     return (
         <>
         안녕 나는 {name}인데, 난 {age} 살이야.
