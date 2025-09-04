@@ -10,13 +10,15 @@ import MyList from './MyList';
 import MyTable from './MyTable';
 import MyForm from './MyForm';
 import HelloComponent from './HelloComponent';
+import UserComponent from './UserComponent';
 
 function App() {
 
   return (
   <div>
+    <UserComponent />
+  {/*
     <HelloComponent name="doom" age={15} />
-  {/* 
     <MyForm />
     <MyComponent />
     <MyTable />
