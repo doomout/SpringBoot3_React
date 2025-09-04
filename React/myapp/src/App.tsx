@@ -16,7 +16,7 @@ function App() {
   return (
   <div>
     <HelloComponent name="doom" age={15} />
-    {/* 
+  {/* 
     <MyForm />
     <MyComponent />
     <MyTable />
@@ -26,9 +26,9 @@ function App() {
     <h2>useEffect 연습</h2>
     <UseEffect_EX />  
     <h2>useRef_EX 연습</h2>
-    <UseRef_EX />
+    <UseRef_EX />     
     <UseEffectExamples />
-    */}
+  */}
   </div>
   );
 }

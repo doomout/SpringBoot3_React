@@ -14,7 +14,7 @@ function MyTable() {
             {
                 data.map((item) => 
                 <tr key={item.id}>
-                    <td>{item.brand}</td>:<td>{item.model}</td>
+                    <td>{item.brand}</td><td>{item.model}</td>
                 </tr>
                 )
             }
