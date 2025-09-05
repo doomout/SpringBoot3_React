@@ -11,13 +11,33 @@ import MyTable from './MyTable';
 import MyForm from './MyForm';
 import HelloComponent from './HelloComponent';
 import UserComponent from './UserComponent';
+import ClickButton from "./ClickButton";
+import InputField from "./InputField";
+import UserForm from "./UserForm";
+
 
 function App() {
 
   return (
-  <div>
+  <div style={{ padding: "20px" }}>
+    <h1>이벤트 핸들링 연습 (React + TypeScript)</h1>
+
+      <section>
+        <h2>1. 버튼 클릭 예제</h2>
+        <ClickButton />
+      </section>
+
+      <section>
+        <h2>2. 입력창 예제</h2>
+        <InputField />
+      </section>
+
+      <section>
+        <h2>3. 폼 제출 예제</h2>
+        <UserForm />
+      </section>
+  {/* 과거 예제들
     <UserComponent />
-  {/*
     <HelloComponent name="doom" age={15} />
     <MyForm />
     <MyComponent />
