@@ -16,15 +16,15 @@ import InputField from "./InputField";
 import UserForm from "./UserForm";
 import Users from "./Users";
 import UsersAsync from "./UsersAsync";
-
+import UsersAxios from "./UsersAxios";
 
 function App() {
 
   return (
   <div>
-    <h1>REST API 예제</h1>
-      <UsersAsync />
+    <UsersAxios />
   {/* 과거 예제들
+    <UsersAsync />
     <Users />
     <h1>이벤트 핸들링 연습 (React + TypeScript)</h1>
       <section>
