@@ -22,3 +22,22 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# TS 빌드 아웃풋
+*.tsbuildinfo
+
+# 환경 변수
+.env
+.env.*.local
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# macOS
+.AppleDouble
+.LSOverride
+
+# vscode 자동 생성 백업
+.history
