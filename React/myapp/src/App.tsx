@@ -15,6 +15,7 @@ import ClickButton from "./ClickButton";
 import InputField from "./InputField";
 import UserForm from "./UserForm";
 import Users from "./Users";
+import UsersAsync from "./UsersAsync";
 
 
 function App() {
@@ -22,8 +23,9 @@ function App() {
   return (
   <div>
     <h1>REST API 예제</h1>
-      <Users />
+      <UsersAsync />
   {/* 과거 예제들
+    <Users />
     <h1>이벤트 핸들링 연습 (React + TypeScript)</h1>
       <section>
         <h2>1. 버튼 클릭 예제</h2>
