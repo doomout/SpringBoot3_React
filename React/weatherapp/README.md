@@ -1,12 +1,30 @@
-# React + Vite
+# React Weather App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React와 OpenWeatherMap API를 사용하여 만든 간단한 날씨 조회 애플리케이션입니다.  
+현재는 `Seoul`의 날씨를 불러와서 **온도, 날씨 상태, 아이콘**을 보여줍니다.
 
-Currently, two official plugins are available:
+## 🚀 실행 방법
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 1. 프로젝트 생성
 
-## Expanding the ESLint configuration
+```bash
+npm create vite@latest
+프로젝트명 -> react -> javaScript 선택
+cd 프로젝트명
+npm install
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 2. 환경 변수 설정
+
+프로젝트 루트에 .env 파일을 만들고 다음 내용을 추가합니다.
+API 키는 OpenWeatherMap 에서 무료 발급 가능합니다.
+
+```ini
+VITE_WEATHER_API_KEY=발급받은_API_KEY
+```
+
+### 3. 실행
+
+```bash
+npm run dev
+```
