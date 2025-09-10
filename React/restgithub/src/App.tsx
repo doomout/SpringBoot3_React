@@ -5,6 +5,7 @@ import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-material.css';
 import type { ColDef } from 'ag-grid-community';
+import type { ICellRendererParams } from 'ag-grid-community'; 
 
 // ✅ v31 이후 필수: 모듈 등록
 import { ModuleRegistry } from 'ag-grid-community';
@@ -36,6 +37,15 @@ function App() {
     {field: 'id', sortable: true, filter: true},
     {field: 'full_name', sortable: true, filter: true},
     {field: 'html_url', sortable: true, filter: true},
+    {
+      headerName: 'Actions',
+      field: 'full_name',
+      cellRenderer: (params: ICellRendererParams) => (
+        <button onClick={() => alert(params.value)}>
+          Paess me
+        </button>
+      ),
+    },
   ]);
 
   return (
@@ -48,7 +58,9 @@ function App() {
           rowData={repodata} 
           columnDefs={columnDefs} 
           pagination={true} 
-          paginationPageSize={8}/>
+          paginationPageSize={8}
+          rowHeight={50}   // ✅ 버튼 크기에 맞게 조정
+        />
       </div>
       {/* 기존코드
       {repodata.length === 0 ? (<p>찾는 데이터 없어</p>):(
