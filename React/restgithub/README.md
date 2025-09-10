@@ -14,3 +14,9 @@ cd 프로젝트명
 npm install
 npm install axios
 ```
+
+### 3. AG Grid 이용
+
+```bash
+npm install ag-grid-community ag-grid-react
+```
