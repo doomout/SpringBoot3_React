@@ -33,9 +33,9 @@ function App() {
 
   // 칼럼 정의
   const [columnDefs] = useState<ColDef[]> ([
-    {field: 'id'},
-    {field: 'full_name'},
-    {field: 'html_url'},
+    {field: 'id', sortable: true, filter: true},
+    {field: 'full_name', sortable: true, filter: true},
+    {field: 'html_url', sortable: true, filter: true},
   ]);
 
   return (
