@@ -44,7 +44,11 @@ function App() {
       <input value={keyword} onChange={e => setKeyword(e.target.value)}/>
       <button onClick={handleClick}>검색</button>
       <div className="ag-theme-material" style={{height: 500, width: 850}}>
-        <AgGridReact rowData={repodata} columnDefs={columnDefs}/>
+        <AgGridReact 
+          rowData={repodata} 
+          columnDefs={columnDefs} 
+          pagination={true} 
+          paginationPageSize={8}/>
       </div>
       {/* 기존코드
       {repodata.length === 0 ? (<p>찾는 데이터 없어</p>):(
