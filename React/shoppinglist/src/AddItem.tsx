@@ -34,10 +34,10 @@ function AddItem(props: AddItemProps) {
 
     return (
         <>
-        <Button onClick={handleOpen}>
+        <Button variant="outlined" onClick={handleOpen}>
             Add Item
         </Button>
-        <Dialog open={open} onClick={handleClose}>
+        <Dialog open={open} onClose={handleClose}>
             <DialogTitle>New Item</DialogTitle>
             <DialogContent>
                 <TextField value={item.product} margin="dense" onChange={ e => setItem({...item, product: e.target.value})} label="Product" fullWidth />
