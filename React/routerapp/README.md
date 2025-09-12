@@ -81,3 +81,79 @@ const { id } = useParams(); // /users/10 → id = "10"
 - Link/NavLink : 새로고침 없는 네비게이션
 - useNavigate : JS 코드로 페이지 이동
 - useParams : URL 파라미터 읽기
+
+# 📌 React Router v6 예제 요약
+
+React Router는 SPA에서 URL에 따라 다른 컴포넌트를 보여주는 라이브러리입니다.  
+아래는 자주 쓰이는 기능들을 포함한 기본 예제입니다.
+
+---
+
+## 🚀 코드 요약
+
+```tsx
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Link,
+  useParams,
+  useNavigate,
+} from "react-router-dom";
+
+// 정적 페이지
+function Home() {
+  return <h2>🏠 Home</h2>;
+}
+function Contact() {
+  return <h2>📞 Contact</h2>;
+}
+function About() {
+  return <h2>ℹ️ About</h2>;
+}
+
+// URL 파라미터 사용
+function User() {
+  const { id } = useParams();
+  return <h2>👤 User ID: {id}</h2>;
+}
+
+// 코드로 네비게이션
+function NavigateExample() {
+  const navigate = useNavigate();
+  return <button onClick={() => navigate("/")}>홈으로 이동</button>;
+}
+
+// 404 처리
+function PageNotFound() {
+  return <h2>❌ Page Not Found</h2>;
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <nav>
+        <Link to="/">Home</Link> | <Link to="/contact">Contact</Link> |
+        <Link to="/about">About</Link> | <Link to="/user/42">User 42</Link> |
+        <Link to="/navigate">Navigate</Link>
+      </nav>
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="contact" element={<Contact />} />
+        <Route path="about" element={<About />} />
+        <Route path="user/:id" element={<User />} />
+        <Route path="navigate" element={<NavigateExample />} />
+        <Route path="*" element={<PageNotFound />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+```
+
+## 포함된 기능
+
+- 기본 라우팅 → /, /contact, /about
+- URL 파라미터 → /user/:id
+- useNavigate 훅 → 코드로 페이지 이동
+- 404 처리 → 없는 경로는 PageNotFound
