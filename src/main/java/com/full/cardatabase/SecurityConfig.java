@@ -88,7 +88,7 @@ public class SecurityConfig {
 
     // 클래스 내에 전역 CORS 필터 추가
     @Bean
-    public CorsConfigurationSource corsCconfigurationSource() {
+    public CorsConfigurationSource corsConfigurationSource() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(Arrays.asList("*"));

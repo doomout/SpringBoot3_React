@@ -5,7 +5,6 @@ import { useQuery } from "@tanstack/react-query";
 function CatList() {
     const getCars = async (): Promise<CarResponse[]> => {
         const response = await axios.get("http://localhost:8081/api/cars");
-
         return response.data._embedded.cars;
     }
 
@@ -40,10 +39,6 @@ function CatList() {
             </table>
         );
     }
-
-    return (
-        <></>
-    );
 }
 
 export default CatList;
