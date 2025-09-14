@@ -1,10 +1,12 @@
 import { getCars, deleteCar } from '../api/carapi';
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { DataGrid, type GridCellParams, type GridColDef } from '@mui/x-data-grid';
 import type { CarResponse } from '../types';
 
 
 function CatList() {
+    const queryClient = useQueryClient();
+
     const { data, error, isSuccess } = useQuery ({
         queryKey: ["cars"],
         queryFn: getCars
@@ -36,6 +38,7 @@ function CatList() {
         mutationFn: deleteCar,
         onSuccess: () => {
             // 자동차 삭제 이후 실행되는 로직
+            queryClient.invalidateQueries({ queryKey: ['cars']});
         },
         onError: (err) => {
             console.error(err);
