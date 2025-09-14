@@ -1,6 +1,6 @@
 import { getCars } from '../api/carapi';
 import { useQuery } from "@tanstack/react-query";
-import  { DataGrid, type GridColDef } from '@mui/x-data-grid';
+import  { DataGrid, type GridCellParams, type GridColDef } from '@mui/x-data-grid';
 
 function CatList() {
     const { data, error, isSuccess } = useQuery ({
@@ -15,6 +15,19 @@ function CatList() {
         {field: 'registrationNumber', headerName: 'Reg.nr.', width: 150},
         {field: 'modelYear', headerName: 'Model Year', width: 150},
         {field: 'price', headerName: 'Price', width: 150},
+        {
+            field: 'delete',
+            headerName: '',
+            width: 90,
+            sortable: false,
+            filterable:false,
+            disableColumnMenu: true,
+            renderCell: (params: GridCellParams) => (
+                <button onClick={() => alert(params.row._links.car.href)}>
+                    Delete
+                </button>
+            ),
+        },
     ];
 
     if(!isSuccess) {
