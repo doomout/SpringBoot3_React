@@ -1,6 +1,8 @@
-import { getCars } from '../api/carapi';
-import { useQuery } from "@tanstack/react-query";
-import  { DataGrid, type GridCellParams, type GridColDef } from '@mui/x-data-grid';
+import { getCars, deleteCar } from '../api/carapi';
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { DataGrid, type GridCellParams, type GridColDef } from '@mui/x-data-grid';
+import type { CarResponse } from '../types';
+
 
 function CatList() {
     const { data, error, isSuccess } = useQuery ({
@@ -23,12 +25,22 @@ function CatList() {
             filterable:false,
             disableColumnMenu: true,
             renderCell: (params: GridCellParams) => (
-                <button onClick={() => alert(params.row._links.car.href)}>
+                <button onClick={() => mutate(params.row._links.car.href)}>
                     Delete
                 </button>
             ),
         },
     ];
+
+    const { mutate } = useMutation<CarResponse, Error, string>({
+        mutationFn: deleteCar,
+        onSuccess: () => {
+            // 자동차 삭제 이후 실행되는 로직
+        },
+        onError: (err) => {
+            console.error(err);
+        },
+    });
 
     if(!isSuccess) {
         return <span>Loading...</span>
