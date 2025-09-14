@@ -56,6 +56,7 @@ function CatList() {
             <DataGrid 
                 rows={data}
                 columns={columns}
+                disableRowSelectionOnClick={true}
                 getRowId={row => row._links.self.href}
             />
         );
