@@ -48,8 +48,8 @@ npm install @tanstack/react-query
 npm install axios
 ```
 
-### 6. 개발 서버 실행:
+### 6. MUI 데이터 그리드 설치
 
 ```bash
-npm run dev
+ npm install @mui/x-data-grid
 ```
