@@ -1,10 +1,12 @@
+import { useState } from 'react';
 import { getCars, deleteCar } from '../api/carapi';
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { DataGrid, type GridCellParams, type GridColDef } from '@mui/x-data-grid';
 import type { CarResponse } from '../types';
-
+import Snackbar from '@mui/material/Snackbar';
 
 function CatList() {
+    const [open, setOpen] = useState(false);
     const queryClient = useQueryClient();
 
     const { data, error, isSuccess } = useQuery ({
@@ -37,6 +39,7 @@ function CatList() {
     const { mutate } = useMutation<CarResponse, Error, string>({
         mutationFn: deleteCar,
         onSuccess: () => {
+            setOpen(true);
             // 자동차 삭제 이후 실행되는 로직
             queryClient.invalidateQueries({ queryKey: ['cars']});
         },
@@ -53,12 +56,20 @@ function CatList() {
     }
     else {
         return (
+            <>            
             <DataGrid 
                 rows={data}
                 columns={columns}
                 disableRowSelectionOnClick={true}
                 getRowId={row => row._links.self.href}
             />
+            <Snackbar 
+                open={open}
+                autoHideDuration={20000}
+                onClose={() => setOpen(false)}
+                message="Car deleted"
+            />
+            </>
         );
     }
 }
