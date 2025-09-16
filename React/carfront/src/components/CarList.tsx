@@ -29,7 +29,12 @@ function CatList() {
             filterable:false,
             disableColumnMenu: true,
             renderCell: (params: GridCellParams) => (
-                <button onClick={() => mutate(params.row._links.car.href)}>
+                <button onClick={() =>{ 
+                    if (window.confirm(`${params.row.brand} - ${params.row.model}을 삭제 하시겠습니까?`)) {
+                        mutate(params.row._links.car.href)
+                    }
+                }}
+                >
                     Delete
                 </button>
             ),
@@ -67,7 +72,7 @@ function CatList() {
                 open={open}
                 autoHideDuration={20000}
                 onClose={() => setOpen(false)}
-                message="Car deleted"
+                message="삭제 성공"
             />
             </>
         );
