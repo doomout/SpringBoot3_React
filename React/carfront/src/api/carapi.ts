@@ -10,3 +10,12 @@ export const deleteCar = async (link: string): Promise<CarResponse> =>  {
     const response = await axios.delete(link);
     return response.data;
 }
+
+export type Car = {
+    brand: string;
+    model: string;
+    color: string;
+    registrationNumber: string;
+    modelYear: number;
+    price: number;
+}
