@@ -5,7 +5,7 @@ Spring Boot 3 + React 기반의 풀스택 웹 애플리케이션 실습 프로�
 ## Tech Stack
 
 - **Backend**: Spring Boot 3.5.4, Java 17, MariaDB 10.11.14
-- **Frontend**: React 19.1, Node.js 22.15.0, npm 10.9.2
+- **Frontend**: React 19.1, Node.js 22.15.0, npm 10.9.2, TypeScript 5.9.2
 - **Tools**: VSCode (Prettier, ESLint, React Snippets), Postman, Chrome React DevTools
 
 ## 주요 의존성
@@ -27,9 +27,9 @@ spring.data.rest.basePath=/api
 springdoc.swagger-ui.path=/swagger-ui/index.html
 ```
 
-## 타입스크립트 기초 문법 정리
+### 타입스크립트 기초 문법 정리
 
-### 1. 기본 타입
+## 1. 기본 타입
 
 ```ts
 let isDone: boolean = true;
@@ -40,7 +40,7 @@ let numbers: number[] = [1, 2, 3]; // 배열
 let tuple: [string, number] = ["kim", 10]; // 튜플
 ```
 
-### 2. any, unknown, void, never
+## 2. any, unknown, void, never
 
 ```ts
 let notSure: any = 4; // 아무거나 → 되도록 쓰지 말기
@@ -53,7 +53,7 @@ function fail(msg: string): never {
 } // 절대 리턴 안함
 ```
 
-### 3. 함수 타입
+## 3. 함수 타입
 
 ```ts
 function add(a: number, b: number): number {
@@ -63,7 +63,7 @@ function add(a: number, b: number): number {
 const multiply = (a: number, b: number): number => a * b;
 ```
 
-### 4. 객체 타입
+## 4. 객체 타입
 
 ```ts
 type User = {
@@ -75,7 +75,7 @@ type User = {
 const user: User = { name: "kim", age: 30 };
 ```
 
-### 5. 인터페이스
+## 5. 인터페이스
 
 ```ts
 interface Person {
@@ -94,14 +94,14 @@ const dev: Developer = {
 };
 ```
 
-### 6. 유니온 & 교차 타입
+## 6. 유니온 & 교차 타입
 
 ```ts
 let id: string | number; // 유니온
 type Employee = Person & { job: string }; // 교차(합치기)
 ```
 
-### 7. 제네릭
+## 7. 제네릭
 
 ```ts
 function identity<T>(arg: T): T {
@@ -112,14 +112,14 @@ const output1 = identity<string>("Hello");
 const output2 = identity<number>(123);
 ```
 
-### 8. 타입 단언 (Type Assertion)
+## 8. 타입 단언 (Type Assertion)
 
 ```ts
 let someValue: unknown = "Hello TypeScript";
 let strLength: number = (someValue as string).length;
 ```
 
-### 9. Enum (열거형)
+## 9. Enum (열거형)
 
 ```ts
 enum Direction {
@@ -132,7 +132,7 @@ enum Direction {
 let move: Direction = Direction.Up;
 ```
 
-### 10. 타입 추론 & 타입 가드
+## 10. 타입 추론 & 타입 가드
 
 ```ts
 let message = "hi"; // string으로 추론됨
@@ -144,4 +144,76 @@ function printId(id: string | number) {
     console.log(id); // number
   }
 }
+```
+
+## 11. React Query v3 예제 vs v4 + TypeScript 5 최신 코드
+
+### Import 방식
+
+```ts
+// TypeScript 4.x
+import { CarResponse } from "../types";
+
+// TypeScript 5.x
+import type { CarResponse } from "../types";
+```
+
+### useMutation 사용법
+
+```ts
+// React Query v3
+const { mutate } = useMutation(addCar, {
+  onSuccess: () => {
+    queryClient.invalidateQueries(["cars"]);
+  },
+});
+
+// React Query v4 + TypeScript 5
+const { mutate } = useMutation<CarResponse, Error, Car>({
+  mutationFn: addCar,
+  onSuccess: () => {
+    queryClient.invalidateQueries({ queryKey: ["cars"] });
+  },
+  onError: (err: Error) => {
+    console.error(err.message);
+  },
+});
+```
+
+### invalidateQueries
+
+```ts
+// React Query v3
+queryClient.invalidateQueries(["cars"]);
+
+// React Query v4 (객체 문법 필수)
+queryClient.invalidateQueries({ queryKey: ["cars"] });
+```
+
+### 에러 핸들링
+
+```ts
+// React Query v3
+onError: (err) => {
+  console.error(err);
+};
+
+// React Query v4
+onError: (err: Error) => {
+  console.error(err.message);
+};
+```
+
+### Form 입력값 (string → number 변환)
+
+```ts
+// TypeScript 4.x (느슨한 타입 허용)
+<input name="price" value={car.price} onChange={handleChange} />
+
+// TypeScript 5.x (string → number 변환 필요)
+<input
+  name="price"
+  value={car.price}
+  onChange={(e) => setCar({ ...car, price: Number(e.target.value) })}
+/>
 ```
