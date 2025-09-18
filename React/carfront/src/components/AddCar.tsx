@@ -1,11 +1,11 @@
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useState } from "react";
 import type{ CarResponse, Car } from "../types";
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { addCar } from "../api/carapi";
+import CarDialogContent from "./CarDialogContent";
 
 function AddCar() {
     const [open, setOpen] = useState(false);
@@ -53,14 +53,7 @@ function AddCar() {
             <button onClick={handleClickOpen}>New Car</button>
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>New car</DialogTitle>
-                <DialogContent>
-                    <input placeholder="Brand" name="brand" value={car.brand} onChange={handleChange}/><br/>
-                    <input placeholder="Model" name="model" value={car.model} onChange={handleChange}/><br/>
-                    <input placeholder="Color" name="color" value={car.color} onChange={handleChange}/><br/>
-                    <input placeholder="Year" name="modelYear" value={car.modelYear} onChange={handleChange}/><br/>
-                    <input placeholder="Reg.nr" name="registrationNumber" value={car.registrationNumber} onChange={handleChange}/><br/>
-                    <input placeholder="Price" name="price" value={car.price} onChange={handleChange}/><br/>
-                </DialogContent>
+                <CarDialogContent car={car} handleChange={handleChange}/>
                 <DialogActions>
                     <button onClick={handleClose}>Cancel</button>
                     <button onClick={handleSave}>Save</button>
