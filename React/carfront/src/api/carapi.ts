@@ -1,4 +1,4 @@
-import type { CarResponse } from "../types";
+import  type { CarResponse, Car } from "../types";
 import axios from 'axios';
 
 export const getCars = async (): Promise<CarResponse[]> => {
@@ -11,11 +11,14 @@ export const deleteCar = async (link: string): Promise<CarResponse> =>  {
     return response.data;
 }
 
-export type Car = {
-    brand: string;
-    model: string;
-    color: string;
-    registrationNumber: string;
-    modelYear: number;
-    price: number;
+
+// 새 자동차 추가
+export const addCar = async (car: Car): Promise<CarResponse> => {
+    const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/cars`, car, {
+        headers: {
+        'Content-Type': 'application/json',
+        },
+    });
+
+    return response.data;
 }

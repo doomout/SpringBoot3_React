@@ -4,6 +4,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { DataGrid, type GridCellParams, type GridColDef } from '@mui/x-data-grid';
 import type { CarResponse } from '../types';
 import Snackbar from '@mui/material/Snackbar';
+import AddCar from './AddCar';
 
 function CatList() {
     const [open, setOpen] = useState(false);
@@ -61,7 +62,8 @@ function CatList() {
     }
     else {
         return (
-            <>            
+            <>      
+            <AddCar />      
             <DataGrid 
                 rows={data}
                 columns={columns}

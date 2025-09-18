@@ -3,9 +3,13 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useState } from "react";
-import { Car } from "../api/carapi";
+import type { Car } from "../types";
+import {useMutation, useQueryClient} from '@tanstack/react-query';
+import { addCar } from "../api/carapi";
 
 function AddCar() {
+    const queryClient = useQueryClient();
+
     const [open, setOpen] = useState(false);
     const [car, setCar] = useState<Car> ({
         brand: '',
@@ -25,6 +29,7 @@ function AddCar() {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setCar({...car, [event.target.name]: event.target.value});
     }
+
 
     return (
         <>
