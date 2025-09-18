@@ -3,23 +3,11 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useState } from "react";
-import type { Car } from "../types";
+import type{ CarResponse, Car } from "../types";
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { addCar } from "../api/carapi";
 
 function AddCar() {
-    const queryClient = useQueryClient();
-
-    const { mutate } = useMutation(addCar, {
-        onSuccess: () => {
-            queryClient.invalidateQueries(["cars"]);
-        },
-        onError: (err) => {
-            console.error(err);
-        },
-    });
-
-
     const [open, setOpen] = useState(false);
     const [car, setCar] = useState<Car> ({
         brand: '',
@@ -39,6 +27,19 @@ function AddCar() {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setCar({...car, [event.target.name]: event.target.value});
     }
+
+    const queryClient = useQueryClient();
+
+    const { mutate } = useMutation<CarResponse, Error, Car>({
+        mutationFn: addCar,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["cars"]});
+        },
+        onError: (err: Error) => {
+            console.error(err.message);
+        },
+    });
+
 
     // 자동차를 저장하고 모달 폼을 닫음
     const handleSave = () => {
