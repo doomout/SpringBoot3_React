@@ -1,0 +1,39 @@
+import { useState } from "react";
+import {Car, CarResponse } from '../types';
+import { Dialog } from "@mui/material/Dialog";
+import { DialogActions } from "@mui/material/DialogActions";
+import { DialogTitle } from "@mui/material/DialogTitle";
+
+type FormProps = {
+    cardata : CarResponse;
+}
+
+function EditCar({cardata}: FormProps) {
+    const [open, setOpen] = useState(false);
+    const [car, setCar] = useState<Car> ({
+        brand: '',
+        model: '',
+        color: '',
+        registrationNumber: '',
+        modelYear: 0,
+        price: 0
+    });
+
+    const handleClickOpen = () => { setOpen(true); };
+    const handleClose = () => { setOpen(false); };
+    const handleSave = () => { setOpen(false); };
+
+    return (
+        <>
+            <button onClick={handleClickOpen}>Edit</button>
+            <Dialog open={open} onClose={handleClose}>
+                <DialogActions>
+                    <button onClick={handleClose}>Cancel</button>
+                    <button onClick={handleSave}>Save</button>
+                </DialogActions>
+            </Dialog>
+        </>
+    );
+}
+
+export default EditCar;
