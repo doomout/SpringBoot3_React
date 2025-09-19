@@ -27,9 +27,9 @@ export const addCar = async (car: Car): Promise<CarResponse> => {
 export const updateCar = async (carEntry: CarEntry):Promise<CarResponse> => {
     const response = await axios.put(carEntry.url, carEntry.car, {
         headers: {
-            'Content-Type': 'appliction/json'
+            'Content-Type': 'application/json'
         },
     });
-    
+
     return response.data;
 }
