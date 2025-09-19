@@ -1,4 +1,4 @@
-import  type { CarResponse, Car } from "../types";
+import  type { CarResponse, Car, CarEntry } from "../types";
 import axios from 'axios';
 
 export const getCars = async (): Promise<CarResponse[]> => {
@@ -20,5 +20,16 @@ export const addCar = async (car: Car): Promise<CarResponse> => {
         },
     });
 
+    return response.data;
+}
+
+// updateCar 함수를 추가
+export const updateCar = async (carEntry: CarEntry):Promise<CarResponse> => {
+    const response = await axios.put(carEntry.url, carEntry.car, {
+        headers: {
+            'Content-Type': 'appliction/json'
+        },
+    });
+    
     return response.data;
 }
