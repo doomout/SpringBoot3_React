@@ -5,6 +5,7 @@ import { DataGrid, type GridCellParams, type GridColDef } from '@mui/x-data-grid
 import type { CarResponse } from '../types';
 import Snackbar from '@mui/material/Snackbar';
 import AddCar from './AddCar';
+import EditCar from './EditCar';
 
 function CatList() {
     const [open, setOpen] = useState(false);
@@ -22,6 +23,15 @@ function CatList() {
         {field: 'registrationNumber', headerName: 'Reg.nr.', width: 150},
         {field: 'modelYear', headerName: 'Model Year', width: 150},
         {field: 'price', headerName: 'Price', width: 150},
+        {
+            field: 'edit',
+            headerName: '',
+            width: 90,
+            sortable: false,
+            filterable:false,
+            disableColumnMenu: true,
+            renderCell: (params: GridCellParams) => <EditCar cardata={params.row} />
+        },
         {
             field: 'delete',
             headerName: '',

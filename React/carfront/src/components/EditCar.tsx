@@ -1,13 +1,9 @@
 import { useState } from "react";
-import {Car, CarResponse } from '../types';
-import { Dialog } from "@mui/material/Dialog";
-import { DialogActions } from "@mui/material/DialogActions";
-import { DialogTitle } from "@mui/material/DialogTitle";
+import type { Car, CarResponse } from '../types';
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogTitle from "@mui/material/DialogTitle";
 import CarDialogContent from "./CarDialogContent";
-
-const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => { 
-    setCar({...car, [event.target.name]: event.target.validationMessage});
-}
 
 type FormProps = {
     cardata : CarResponse;
@@ -38,6 +34,10 @@ function EditCar({cardata}: FormProps) {
     };
     const handleClose = () => { setOpen(false); };
     const handleSave = () => { setOpen(false); };
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => { 
+        setCar({...car, [event.target.name]: event.target.value});
+    }
 
     return (
         <>
