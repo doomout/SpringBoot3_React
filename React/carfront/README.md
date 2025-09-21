@@ -53,3 +53,12 @@ npm install axios
 ```bash
  npm install @mui/x-data-grid
 ```
+
+### 7. MUI 아이콘 버튼 컴포넌트 설치
+
+아이콘 종류 확인 사이트
+https://mui.com/material-ui/material-icons/
+
+```bash
+npm install @mui/icons-material
+```
