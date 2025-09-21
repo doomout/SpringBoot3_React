@@ -9,6 +9,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Button from "@mui/material/Button";
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
+import Tooltip from '@mui/material/Tooltip';
 
 type FormProps = {
     cardata : CarResponse;
@@ -73,9 +74,11 @@ function EditCar({cardata}: FormProps) {
     
     return (
         <>
+        <Tooltip title="Edit car">
             <IconButton aria-label="edit" size="small" onClick={handleClickOpen}>
                 <EditIcon fontSize="small"/>
             </IconButton>
+        </Tooltip>
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>Edit car</DialogTitle>
                 <CarDialogContent car={car} handleChange={handleChange}/>
