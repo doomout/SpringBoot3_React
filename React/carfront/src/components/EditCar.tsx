@@ -7,6 +7,8 @@ import CarDialogContent from "./CarDialogContent";
 import { updateCar } from "../api/carapi";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Button from "@mui/material/Button";
+import IconButton from '@mui/material/IconButton';
+import EditIcon from '@mui/icons-material/Edit';
 
 type FormProps = {
     cardata : CarResponse;
@@ -71,7 +73,9 @@ function EditCar({cardata}: FormProps) {
     
     return (
         <>
-            <Button onClick={handleClickOpen}>Edit</Button>
+            <IconButton aria-label="edit" size="small" onClick={handleClickOpen}>
+                <EditIcon fontSize="small"/>
+            </IconButton>
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>Edit car</DialogTitle>
                 <CarDialogContent car={car} handleChange={handleChange}/>
