@@ -6,6 +6,8 @@ import type { CarResponse } from '../types';
 import Snackbar from '@mui/material/Snackbar';
 import AddCar from './AddCar';
 import EditCar from './EditCar';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 function CatList() {
     const [open, setOpen] = useState(false);
@@ -40,14 +42,15 @@ function CatList() {
             filterable:false,
             disableColumnMenu: true,
             renderCell: (params: GridCellParams) => (
-                <button onClick={() =>{ 
-                    if (window.confirm(`${params.row.brand} - ${params.row.model}을 삭제 하시겠습니까?`)) {
-                        mutate(params.row._links.car.href)
-                    }
-                }}
+                <IconButton aria-label="delete" size="small"
+                    onClick={() =>{ 
+                        if (window.confirm(`${params.row.brand} - ${params.row.model}을 삭제 하시겠습니까?`)) {
+                            mutate(params.row._links.car.href)
+                        }
+                    }}
                 >
-                    Delete
-                </button>
+                <DeleteIcon fontSize="small" />    
+                </IconButton>
             ),
         },
     ];
