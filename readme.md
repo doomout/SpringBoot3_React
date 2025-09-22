@@ -172,7 +172,50 @@ test("버튼 클릭 시 텍스트 변경", async () => {
 });
 ```
 
+## Vitest란?
+
+- Vite 팀에서 만든 차세대 테스트 프레임워크
+- Jest와 API가 매우 유사하지만, Vite의 빠른 번들링을 활용해서 더 빠른 실행 속도 제공
+- React, Vue, Svelte 등 다양한 프론트엔드 프레임워크와 자연스럽게 통합
+
+### 주요 특징
+
+- ⚡ 빠른 실행: Vite의 HMR(Hot Module Replacement)과 ESBuild를 활용
+- 🧪 Jest 호환 API: describe, it/test, expect 같은 구문 동일 → 학습 곡선 낮음
+- 🎯 ESM 지원: 최신 ES 모듈 기반 프로젝트에 최적화
+- 🔍 내장 커버리지(coverage) 지원 → 별도 세팅 없이 코드 커버리지 확인 가능
+- 🤝 Testing Library와 호환 → React Testing Library와 함께 사용 가능
+
+### 기본 사용법
+
+```bash
+# 설치
+npm install --save-dev vitest @testing-library/react @testing-library/jest-dom
+```
+
+```json
+// package.json 예시
+"scripts": {
+  "test": "vitest"
+}
+```
+
+```js
+// 예시 테스트 (App.test.jsx)
+import { render, screen } from "@testing-library/react";
+import { describe, it, expect } from "vitest";
+import App from "./App";
+
+describe("App 컴포넌트", () => {
+  it("Hello World 텍스트 렌더링", () => {
+    render(<App />);
+    expect(screen.getByText(/hello world/i)).toBeInTheDocument();
+  });
+});
+```
+
 ### 정리하면:
 
-- Jest → 테스트 실행기(Test Runner)
-- React Testing Library → React 컴포넌트 테스트 도구
+- Jest → 가장 널리 쓰이는 JS 테스트 프레임워크
+- React Testing Library → React 컴포넌트 테스트 전용
+- Vitest → Vite 프로젝트에 최적화된 초고속 테스트 프레임워크 (Jest 대체 가능)
