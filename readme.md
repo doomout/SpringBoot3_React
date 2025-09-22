@@ -18,7 +18,7 @@ Spring Boot 3 + React 기반의 풀스택 웹 애플리케이션 실습 프로�
 - H2 (테스트)
 - React, TypeScript
 
-# application.properties (개발 환경 예시)
+## application.properties (개발 환경 예시)
 
 ```bash
 spring.jpa.hibernate.ddl-auto=create-drop   # 🚨 개발 전용, 운영에서는 update/validate 권장
@@ -27,126 +27,7 @@ spring.data.rest.basePath=/api
 springdoc.swagger-ui.path=/swagger-ui/index.html
 ```
 
-### 타입스크립트 기초 문법 정리
-
-## 1. 기본 타입
-
-```ts
-let isDone: boolean = true;
-let age: number = 30;
-let userName: string = "kim";
-
-let numbers: number[] = [1, 2, 3]; // 배열
-let tuple: [string, number] = ["kim", 10]; // 튜플
-```
-
-## 2. any, unknown, void, never
-
-```ts
-let notSure: any = 4; // 아무거나 → 되도록 쓰지 말기
-let value: unknown = "hi"; // 타입 알 수 없을 때 → 사용 전 타입 체크 필요
-function logMessage(msg: string): void {
-  console.log(msg);
-} // 리턴 없음
-function fail(msg: string): never {
-  throw new Error(msg);
-} // 절대 리턴 안함
-```
-
-## 3. 함수 타입
-
-```ts
-function add(a: number, b: number): number {
-  return a + b;
-}
-
-const multiply = (a: number, b: number): number => a * b;
-```
-
-## 4. 객체 타입
-
-```ts
-type User = {
-  name: string;
-  age: number;
-  isAdmin?: boolean; // 선택적 속성 (optional)
-};
-
-const user: User = { name: "kim", age: 30 };
-```
-
-## 5. 인터페이스
-
-```ts
-interface Person {
-  name: string;
-  age: number;
-}
-
-interface Developer extends Person {
-  skills: string[];
-}
-
-const dev: Developer = {
-  name: "lee",
-  age: 25,
-  skills: ["React", "TypeScript"],
-};
-```
-
-## 6. 유니온 & 교차 타입
-
-```ts
-let id: string | number; // 유니온
-type Employee = Person & { job: string }; // 교차(합치기)
-```
-
-## 7. 제네릭
-
-```ts
-function identity<T>(arg: T): T {
-  return arg;
-}
-
-const output1 = identity<string>("Hello");
-const output2 = identity<number>(123);
-```
-
-## 8. 타입 단언 (Type Assertion)
-
-```ts
-let someValue: unknown = "Hello TypeScript";
-let strLength: number = (someValue as string).length;
-```
-
-## 9. Enum (열거형)
-
-```ts
-enum Direction {
-  Up = 1,
-  Down,
-  Left,
-  Right,
-}
-
-let move: Direction = Direction.Up;
-```
-
-## 10. 타입 추론 & 타입 가드
-
-```ts
-let message = "hi"; // string으로 추론됨
-
-function printId(id: string | number) {
-  if (typeof id === "string") {
-    console.log(id.toUpperCase()); // string 메서드 가능
-  } else {
-    console.log(id); // number
-  }
-}
-```
-
-## 11. React Query v3 예제 vs v4 + TypeScript 5 최신 코드
+## React Query v3 예제 vs v4 + TypeScript 5 최신 코드
 
 ### Import 방식
 
@@ -217,3 +98,81 @@ onError: (err: Error) => {
   onChange={(e) => setCar({ ...car, price: Number(e.target.value) })}
 />
 ```
+
+## 리액트 테스트 하기
+
+## Jest란?
+
+**Facebook(현재 Meta)**에서 만든 JavaScript/TypeScript 테스트 프레임워크
+React 프로젝트에서 가장 널리 쓰이는 테스트 도구
+단위 테스트(Unit Test), 스냅샷 테스트(Snapshot Test), 비동기 코드 테스트 지원
+
+### 주요 특징
+
+- Zero Config → React + Vite/CRA 환경에서 바로 사용 가능
+- 스냅샷 테스트 → 컴포넌트 UI 변경 여부를 쉽게 감지
+- 빠른 실행 속도와 watch 모드 → 코드 변경 시 자동으로 테스트 재실행
+- Mocking 지원 → API 호출, 함수 등을 가짜로 만들어 독립적으로 테스트 가능
+
+### 기본 사용법
+
+```bash
+# 설치
+npm install --save-dev jest @testing-library/react @testing-library/jest-dom
+```
+
+```json
+// package.json 예시
+"scripts": {
+  "test": "jest"
+}
+```
+
+```js
+// 예시 테스트 (sum.test.js)
+import { render, screen } from "@testing-library/react";
+import App from "./App";
+
+test("renders hello world", () => {
+  render(<App />);
+  expect(screen.getByText(/hello world/i)).toBeInTheDocument();
+});
+```
+
+## React Testing Library란?
+
+- React 컴포넌트 테스트 전용 라이브러리
+- DOM Testing Library 기반 → 실제 브라우저 환경과 유사하게 컴포넌트를 다룸
+- “사용자 관점” 테스트를 강조 (버튼 클릭, 텍스트 확인 등)
+
+### 주요 특징
+
+- 사용자 중심: DOM 쿼리(getByText, getByRole 등)로 UI를 실제 사용자처럼 테스트
+- Jest와 함께 사용: 보통 Jest + RTL 조합으로 단위/통합 테스트 작성
+- 간단한 API: 불필요한 구현 세부사항 대신, “어떤 화면이 보여야 하는가”에 집중
+- 접근성(A11y) 향상: 접근성 역할(Role)에 기반한 테스트 권장
+
+### 기본 사용법
+
+```bash
+# 설치
+npm install --save-dev @testing-library/react @testing-library/jest-dom
+```
+
+```js
+// App.test.js 예시
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import App from "./App";
+
+test("버튼 클릭 시 텍스트 변경", async () => {
+  render(<App />);
+  await userEvent.click(screen.getByRole("button", { name: /클릭/i }));
+  expect(screen.getByText(/변경됨/i)).toBeInTheDocument();
+});
+```
+
+### 정리하면:
+
+- Jest → 테스트 실행기(Test Runner)
+- React Testing Library → React 컴포넌트 테스트 도구
