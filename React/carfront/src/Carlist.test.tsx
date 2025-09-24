@@ -3,6 +3,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
 import CarList from './components/CarList';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import userEvent from '@testing-library/user-event';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -27,8 +28,15 @@ describe("CarList tests", () => {
     test("Cars are fetched", async () => {
         render(<CarList />, { wrapper });
 
-        // mock 응답이 들어올 때까지 기다림
         await waitFor(() => screen.findByText(/New Car/i));
         expect(screen.getByText(/Ford/i)).toBeInTheDocument();
+    });
+
+    test("Open new car modal", async () => {
+        render(<CarList />, { wrapper });
+
+        await waitFor(() => screen.findByText(/New Car/i));
+        await userEvent.click(screen.getByText(/New Car/i));
+        expect(screen.getByText(/Save/i)).toBeInTheDocument();
     });
 });
