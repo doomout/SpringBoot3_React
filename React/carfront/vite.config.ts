@@ -5,8 +5,6 @@ export default defineConfig({
   plugins: [react()],
   test: {
     globals: true,
-    environment: 'jsdom', 
-    //css: true, // ✅ Vitest가 CSS import 허용
-    setupFiles: ['./src/setupTests.ts'],
+    environment: 'jsdom',
   },
 })
