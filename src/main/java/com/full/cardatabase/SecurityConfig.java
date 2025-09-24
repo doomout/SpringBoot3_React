@@ -67,22 +67,20 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         // 모든 사용자에게 모든 접근 권한 부여
+        // http.csrf((csrf) -> csrf.disable()).cors(withDefaults())
+        // .authorizeHttpRequests((authorizeHttpRequests) ->
+        // authorizeHttpRequests.anyRequest().permitAll());
+
         http.csrf((csrf) -> csrf.disable()).cors(withDefaults())
-                .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests.anyRequest().permitAll());
-        /*
-         * 임시로 닫음
-         * http.csrf((csrf) -> csrf.disable()).cors(withDefaults())
-         * .sessionManagement(
-         * (sessionManagement) ->
-         * sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-         * .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
-         * .requestMatchers(HttpMethod.POST, "/login").permitAll()
-         * .anyRequest().authenticated())
-         * .addFilterBefore(authenticationFilter,
-         * UsernamePasswordAuthenticationFilter.class)
-         * .exceptionHandling((exceptionHandling) ->
-         * exceptionHandling.authenticationEntryPoint(exceptionHandler));
-         */
+                .sessionManagement(
+                        (sessionManagement) -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
+                        .requestMatchers(HttpMethod.POST, "/login").permitAll()
+                        .anyRequest().authenticated())
+                .addFilterBefore(authenticationFilter,
+                        UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling((exceptionHandling) -> exceptionHandling.authenticationEntryPoint(exceptionHandler));
+
         return http.build();
     }
 
