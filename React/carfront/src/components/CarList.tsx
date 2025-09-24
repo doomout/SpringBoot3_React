@@ -80,7 +80,7 @@ function CatList() {
             <DataGrid 
                 rows={data}
                 columns={columns}
-                disableRowSelectionOnClick={true}
+                disableSelectionOnClick={true}
                 getRowId={row => row._links.self.href}
             />
             <Snackbar 
