@@ -8,8 +8,12 @@ import AddCar from './AddCar';
 import EditCar from './EditCar';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 
-function CatList() {
+type CarListProps = {logOut?: () => void;}
+
+function CatList({ logOut }: CarListProps) {
     const [open, setOpen] = useState(false);
     const queryClient = useQueryClient();
 
@@ -76,7 +80,11 @@ function CatList() {
     else {
         return (
             <>      
-            <AddCar />      
+            <Stack direction="row" alignItems="center" justifyContent="space-between">
+                <AddCar />  
+                <Button onClick={logOut}>Log out</Button> 
+            </Stack>
+              
             <div style={{ height: 500, width: "100%", marginTop: "1rem" }}>
                 <DataGrid 
                     rows={data}
@@ -87,7 +95,7 @@ function CatList() {
             </div>
             <Snackbar 
                 open={open}
-                autoHideDuration={20000}
+                autoHideDuration={2000}
                 onClose={() => setOpen(false)}
                 message="삭제 성공"
             />

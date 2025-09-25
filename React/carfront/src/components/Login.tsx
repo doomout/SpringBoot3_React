@@ -39,8 +39,13 @@ function Login() {
         .catch(() => setOpen(true));
     }
 
+    const handleLogout = () => {
+        setAuth(false);
+        sessionStorage.setItem("jwt", "");
+    }
+
     if(isAuthenticated) {
-        return <CarList />
+        return <CarList logOut={handleLogout}/>
     }
     else {
         return (
