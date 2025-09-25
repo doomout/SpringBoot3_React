@@ -11,7 +11,10 @@ export const getCars = async (): Promise<CarResponse[]> => {
 }
 
 export const deleteCar = async (link: string): Promise<CarResponse> =>  {
-    const response = await axios.delete(link);
+    const token = sessionStorage.getItem("jwt");
+    const response = await axios.delete(link, {
+        headers: { 'Authorization': token }
+    });
     return response.data;
 }
 
