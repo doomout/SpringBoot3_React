@@ -35,9 +35,12 @@ export const addCar = async (car: Car): Promise<CarResponse> => {
 
 // updateCar 함수를 추가
 export const updateCar = async (carEntry: CarEntry):Promise<CarResponse> => {
+    const token = sessionStorage.getItem("jwt");
+
     const response = await axios.put(carEntry.url, carEntry.car, {
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': token
         },
     });
 
