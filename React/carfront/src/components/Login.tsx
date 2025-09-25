@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import CarList from "./CarList";
+import Snackbar from "@mui/material/Snackbar";
 
 type User = {
     username: string;
@@ -11,6 +12,8 @@ type User = {
 }
 
 function Login() {
+    const [open, setOpen] = useState(false);
+
     const [user, setUser] = useState<User>({
         username: '',
         password: ''
@@ -33,7 +36,7 @@ function Login() {
                 setAuth(true);
             }
         })
-        .catch(err => console.error(err));
+        .catch(() => setOpen(true));
     }
 
     if(isAuthenticated) {
@@ -57,6 +60,12 @@ function Login() {
                     onClick={handleLogin} >
                         Login
                 </Button>
+                <Snackbar 
+                    open={open}
+                    autoHideDuration={3000}
+                    onClose={() => setOpen(false)}
+                    message="로그인 실패!"
+                />
             </Stack>
         );
     }
