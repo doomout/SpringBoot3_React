@@ -77,12 +77,14 @@ function CatList() {
         return (
             <>      
             <AddCar />      
-            <DataGrid 
-                rows={data}
-                columns={columns}
-                disableSelectionOnClick={true}
-                getRowId={row => row._links.self.href}
-            />
+            <div style={{ height: 500, width: "100%", marginTop: "1rem" }}>
+                <DataGrid 
+                    rows={data}
+                    columns={columns}
+                    disableSelectionOnClick={true}
+                    getRowId={row => row._links.self.href}
+                />
+            </div>
             <Snackbar 
                 open={open}
                 autoHideDuration={20000}
