@@ -220,6 +220,50 @@ describe("App 컴포넌트", () => {
 - React Testing Library → React 컴포넌트 테스트 전용
 - Vitest → Vite 프로젝트에 최적화된 초고속 테스트 프레임워크 (Jest 대체 가능)
 
+## 🐳 Docker 환경에서 실행하기
+
+### 1. MariaDB 컨테이너 실행
+
+```bash
+# MariaDB 최신 이미지 가져오기
+docker pull mariadb:latest
+
+# MariaDB 컨테이너 실행
+docker run --name cardb \
+  -e MYSQL_ROOT_PASSWORD=DB 접속 암호 \
+  -e MYSQL_DATABASE=cardb \
+  -p 3306:3306 \
+  -d mariadb:latest
+```
+
+### 2. Spring Boot 백엔드 빌드
+
+```bash
+./gradlew clean build -x test
+```
+
+### 3. Dockerfile 작성
+
+```dockerfile
+FROM eclipse-temurin:17-jdk
+VOLUME /tmp
+EXPOSE 8081
+COPY build/libs/SpringBoot3_React-0.0.1-SNAPSHOT.jar app.jar
+ENTRYPOINT ["java", "-jar", "app.jar"]
+```
+
+### 4. 백엔드 도커 이미지 빌드
+
+```bash
+docker build -t carbackend .
+```
+
+### 5. 백엔드 컨테이너 실행
+
+```bash
+docker run -p 8081:8081 --name carapp --link cardb:mariadb -d carbackend
+```
+
 ## 🛠️ npm 지옥 탈출 10계명
 
 ### 1. 버전 고정은 생명이다
